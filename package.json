@@ -1,0 +1,38 @@
+{
+  "name": "nestjs-accesstime",
+  "version": "1.0.0",
+  "description": "NestJS middleware for AccessTime, enabling request-based subscription validation and access control.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\"",
+    "build": "rimraf dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/accesstimeio/nestjs-accesstime.git"
+  },
+  "keywords": [
+    "accesstime",
+    "nestjs",
+    "middleware",
+    "nestjs accesstime",
+    "nestjs middleware"
+  ],
+  "author": "mehmetraufoguz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/accesstimeio/nestjs-accesstime/issues"
+  },
+  "homepage": "https://github.com/accesstimeio/nestjs-accesstime#readme",
+  "devDependencies": {
+    "@nestjs/common": "^11.0.11",
+    "@types/express": "^5.0.0",
+    "express": "^4.21.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@accesstimeio/accesstime-sdk": "^1.0.3"
+  }
+}
