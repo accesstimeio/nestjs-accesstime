@@ -1,6 +1,6 @@
 # NestJS AccessTime Middleware
 
-A NestJS middleware package for integrating with AccessTime subscription payment service on Base chain.
+A NestJS middleware package for integrating with AccessTime subscription payment service.
 
 ## Features
 
