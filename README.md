@@ -2,6 +2,8 @@
 
 A NestJS middleware package for integrating with AccessTime subscription payment service.
 
+🔗 [Example NestJS Project](https://github.com/accesstimeio/nestjs-example-project)
+
 ## Features
 
 - Verify wallet signatures for incoming requests
