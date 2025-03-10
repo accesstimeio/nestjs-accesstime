@@ -4,6 +4,9 @@
   "description": "NestJS middleware for AccessTime, enabling request-based subscription validation and access control.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
     "build": "rimraf dist && tsc"
