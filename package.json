@@ -1,6 +1,6 @@
 {
   "name": "nestjs-accesstime",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NestJS middleware for AccessTime, enabling request-based subscription validation and access control.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

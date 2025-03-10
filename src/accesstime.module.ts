@@ -4,7 +4,7 @@ import { Address } from "viem";
 
 import { AccessTimeMiddleware } from "./accesstime.middleware";
 
-export interface AccessTimeModuleOptions {
+interface AccessTimeModuleOptions {
     // Chain configuration
     chain: {
         id: number;
@@ -17,6 +17,8 @@ export interface AccessTimeModuleOptions {
     // Optional: provide a custom AccessTime instance
     accessTimeClient?: AccessTime;
 }
+
+export { AccessTime } from "@accesstimeio/accesstime-sdk";
 
 @Module({})
 export class AccessTimeModule {

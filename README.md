@@ -12,7 +12,7 @@ A NestJS middleware package for integrating with AccessTime subscription payment
 ## Installation
 
 ```bash
-npm install nestjs-accesstime @accesstimeio/accesstime-sdk viem
+npm install nestjs-accesstime
 ```
 
 ## Usage
@@ -30,10 +30,10 @@ import { AccessTimeModule } from 'nestjs-accesstime';
     AccessTimeModule.register({
       chain: {
         id: 8453,
-        rpcUrl: 'https://mainnet.base.org',
+        rpcUrl: 'https://mainnet.base.org', // optional
       },
       contractAddress: '0xYourAccessTimeContractAddress',
-      minRemainingTime: 3600, // 1 hour in seconds
+      minRemainingTime: 3600, // 1 hour in seconds, optional
     }),
   ],
 })
@@ -172,25 +172,6 @@ export class UserController {
     };
   }
 }
-```
-
-## Error Handling
-
-By default, the middleware will return appropriate HTTP responses for unauthorized requests. You can customize error handling by providing an `errorHandler` function:
-
-```typescript
-import { AccessTimeMiddleware } from 'nestjs-accesstime';
-
-const customMiddleware = new AccessTimeMiddleware(accessTimeClient, {
-  minRemainingTime: 3600,
-  errorHandler: (req, res, error) => {
-    // Custom error handling logic
-    res.status(401).json({
-      message: 'Custom error message',
-      error: error.message,
-    });
-  },
-});
 ```
 
 ## License
