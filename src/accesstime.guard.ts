@@ -6,7 +6,7 @@ import {
     Inject
 } from "@nestjs/common";
 import { AccessTime } from "@accesstimeio/accesstime-sdk";
-import { recoverMessageAddress, Hash } from "viem";
+import { Hash, recoverAddress } from "viem";
 import { Request } from "express";
 
 @Injectable()
@@ -31,8 +31,8 @@ export class AccessTimeGuard implements CanActivate {
         }
 
         // Verify the message and recover signer address
-        const signerAddress = await recoverMessageAddress({
-            message: messageHash,
+        const signerAddress = await recoverAddress({
+            hash: messageHash,
             signature: walletSignature
         });
 

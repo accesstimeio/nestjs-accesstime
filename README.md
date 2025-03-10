@@ -118,7 +118,7 @@ export class SubscriptionService {
 Your client needs to send requests with the required headers:
 
 ```typescript
-import { signMessage } from 'viem';
+import { signMessage, hashMessage } from 'viem';
 
 const message = 'Authenticate for AccessTime: ' + Date.now(); // Include timestamp to prevent replay attacks
 const signature = await signMessage({
@@ -129,7 +129,7 @@ const signature = await signMessage({
 // Then add these headers to your request
 const headers = {
   'X-ACCESSTIME-AUTH-SIGNATURE': signature,
-  'X-ACCESSTIME-AUTH-MESSAGE': message,
+  'X-ACCESSTIME-AUTH-MESSAGE': hashMessage(message),
 };
 
 // Make the request with these headers

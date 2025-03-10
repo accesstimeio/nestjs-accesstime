@@ -1,7 +1,7 @@
 import { Inject, Injectable, NestMiddleware } from "@nestjs/common";
 import { Request, Response, NextFunction } from "express";
 import { AccessTime } from "@accesstimeio/accesstime-sdk";
-import { recoverMessageAddress, Hash } from "viem";
+import { Hash, recoverAddress } from "viem";
 import { UnauthorizedException } from "@nestjs/common";
 
 @Injectable()
@@ -26,8 +26,8 @@ export class AccessTimeMiddleware implements NestMiddleware {
             }
 
             // Verify the message and recover signer address
-            const signerAddress = await recoverMessageAddress({
-                message: messageHash,
+            const signerAddress = await recoverAddress({
+                hash: messageHash,
                 signature: walletSignature
             });
 
