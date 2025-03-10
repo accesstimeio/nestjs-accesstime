@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from "@nestjs/common";
+import { Inject, Injectable, NestMiddleware } from "@nestjs/common";
 import { Request, Response, NextFunction } from "express";
 import { AccessTime } from "@accesstimeio/accesstime-sdk";
 import { recoverMessageAddress, Hash } from "viem";
@@ -8,19 +8,18 @@ import { UnauthorizedException } from "@nestjs/common";
 export class AccessTimeMiddleware implements NestMiddleware {
     constructor(
         private readonly accessTimeClient: AccessTime,
+        @Inject("ACCESSTIME_OPTIONS")
         private readonly options: {
             // Time in seconds that a user's subscription must be valid for
             minRemainingTime?: number;
-            // Optional custom error handler
-            errorHandler?: (req: Request, res: Response, error: any) => void;
         } = {}
     ) {}
 
     async use(req: Request, res: Response, next: NextFunction) {
         try {
             // Extract required signature data from request headers
-            const walletSignature = req.headers["x-wallet-signature"] as Hash;
-            const messageHash = req.headers["x-message-hash"] as Hash;
+            const walletSignature = req.headers["X-ACCESSTIME-AUTH-SIGNATURE"] as Hash;
+            const messageHash = req.headers["X-ACCESSTIME-AUTH-MESSAGE"] as Hash;
 
             if (!walletSignature || !messageHash) {
                 throw new UnauthorizedException("Missing wallet signature or message hash");
@@ -62,23 +61,19 @@ export class AccessTimeMiddleware implements NestMiddleware {
 
             next();
         } catch (error) {
-            if (this.options.errorHandler) {
-                return this.options.errorHandler(req, res, error);
-            } else {
-                if (error instanceof UnauthorizedException) {
-                    return res.status(401).json({
-                        statusCode: 401,
-                        message: error.message,
-                        error: "Unauthorized"
-                    });
-                }
-
-                return res.status(500).json({
-                    statusCode: 500,
-                    message: "Internal server error",
-                    error: error
+            if (error instanceof UnauthorizedException) {
+                return res.status(401).json({
+                    statusCode: 401,
+                    message: error.message,
+                    error: "Unauthorized"
                 });
             }
+
+            return res.status(500).json({
+                statusCode: 500,
+                message: "Internal server error",
+                error: error
+            });
         }
     }
 }

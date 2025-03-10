@@ -1,4 +1,10 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
+import {
+    Injectable,
+    CanActivate,
+    ExecutionContext,
+    UnauthorizedException,
+    Inject
+} from "@nestjs/common";
 import { AccessTime } from "@accesstimeio/accesstime-sdk";
 import { recoverMessageAddress, Hash } from "viem";
 import { Request } from "express";
@@ -7,6 +13,7 @@ import { Request } from "express";
 export class AccessTimeGuard implements CanActivate {
     constructor(
         private readonly accessTimeClient: AccessTime,
+        @Inject("ACCESSTIME_OPTIONS")
         private readonly options: {
             minRemainingTime?: number;
         } = {}
@@ -16,8 +23,8 @@ export class AccessTimeGuard implements CanActivate {
         const request = context.switchToHttp().getRequest<Request>();
 
         // Extract required signature data from request headers
-        const walletSignature = request.headers["x-wallet-signature"] as Hash;
-        const messageHash = request.headers["x-message-hash"] as Hash;
+        const walletSignature = request.headers["X-ACCESSTIME-AUTH-SIGNATURE"] as Hash;
+        const messageHash = request.headers["X-ACCESSTIME-AUTH-MESSAGE"] as Hash;
 
         if (!walletSignature || !messageHash) {
             throw new UnauthorizedException("Missing wallet signature or message hash");

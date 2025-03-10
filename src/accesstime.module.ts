@@ -23,6 +23,12 @@ export class AccessTimeModule {
     static register(options: AccessTimeModuleOptions): DynamicModule {
         const providers: Provider[] = [
             {
+                provide: "ACCESSTIME_OPTIONS",
+                useValue: {
+                    minRemainingTime: options.minRemainingTime ?? 0
+                }
+            },
+            {
                 provide: AccessTime,
                 useFactory: () => {
                     if (options.accessTimeClient) {
@@ -40,19 +46,22 @@ export class AccessTimeModule {
             },
             {
                 provide: AccessTimeMiddleware,
-                useFactory: (accessTimeClient: AccessTime) => {
-                    return new AccessTimeMiddleware(accessTimeClient, {
-                        minRemainingTime: options.minRemainingTime
-                    });
+                useFactory: (
+                    accessTimeClient: AccessTime,
+                    options: {
+                        minRemainingTime?: number;
+                    }
+                ) => {
+                    return new AccessTimeMiddleware(accessTimeClient, options);
                 },
-                inject: [AccessTime]
+                inject: [AccessTime, "ACCESSTIME_OPTIONS"]
             }
         ];
 
         return {
             module: AccessTimeModule,
             providers,
-            exports: [AccessTimeMiddleware, AccessTime]
+            exports: [AccessTimeMiddleware, AccessTime, "ACCESSTIME_OPTIONS"]
         };
     }
 }

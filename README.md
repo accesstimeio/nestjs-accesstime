@@ -128,8 +128,8 @@ const signature = await signMessage({
 
 // Then add these headers to your request
 const headers = {
-  'x-wallet-signature': signature,
-  'x-message-hash': message,
+  'X-ACCESSTIME-AUTH-SIGNATURE': signature,
+  'X-ACCESSTIME-AUTH-MESSAGE': message,
 };
 
 // Make the request with these headers
