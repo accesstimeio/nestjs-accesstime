@@ -18,8 +18,8 @@ export class AccessTimeMiddleware implements NestMiddleware {
     async use(req: Request, res: Response, next: NextFunction) {
         try {
             // Extract required signature data from request headers
-            const walletSignature = req.headers["X-ACCESSTIME-AUTH-SIGNATURE"] as Hash;
-            const messageHash = req.headers["X-ACCESSTIME-AUTH-MESSAGE"] as Hash;
+            const walletSignature = req.get("X-ACCESSTIME-AUTH-SIGNATURE") as Hash;
+            const messageHash = req.get("X-ACCESSTIME-AUTH-MESSAGE") as Hash;
 
             if (!walletSignature || !messageHash) {
                 throw new UnauthorizedException("Missing wallet signature or message hash");

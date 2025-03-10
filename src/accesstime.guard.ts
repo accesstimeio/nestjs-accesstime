@@ -23,8 +23,8 @@ export class AccessTimeGuard implements CanActivate {
         const request = context.switchToHttp().getRequest<Request>();
 
         // Extract required signature data from request headers
-        const walletSignature = request.headers["X-ACCESSTIME-AUTH-SIGNATURE"] as Hash;
-        const messageHash = request.headers["X-ACCESSTIME-AUTH-MESSAGE"] as Hash;
+        const walletSignature = request.get("X-ACCESSTIME-AUTH-SIGNATURE") as Hash;
+        const messageHash = request.get("X-ACCESSTIME-AUTH-MESSAGE") as Hash;
 
         if (!walletSignature || !messageHash) {
             throw new UnauthorizedException("Missing wallet signature or message hash");
